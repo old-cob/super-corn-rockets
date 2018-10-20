@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/old-cob/super-corn-rockets#readme",
   "dependencies": {
+    "@slack/client": "^4.8.0",
     "body-parser": "^1.18.3",
     "config": "^2.0.1",
     "express": "^4.16.4",
