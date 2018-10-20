@@ -18,23 +18,10 @@ app.post(
       'req.body:\n' +
         require('util').inspect(req.body, { depth: null, colors: true })
     );
-    console.log(
-      'req.params:\n' +
-        require('util').inspect(req.params, { depth: null, colors: true })
-    );
     res.json({
       response_type: 'ephemeral',
       text: 'ROCKET!!!'
     });
-
-    // console.log('req.body.channel_id:\n' + require('util').inspect(req.body.channel_id, { depth: null, colors: true }));
-    // slackClient.chat.postMessage({ channel: req.body.channel_id, text: 'Hello there' })
-    //   .then((res) => {
-    //     // `res` contains information about the posted message
-    //     console.log('Message sent:\n' + require('util').inspect(res, { depth: null, colors: true }));
-    //   }).catch((err) => {
-    //     console.log('err:\n' + require('util').inspect(err, { depth: null, colors: true }));
-    //   });
 
     slackClient.dialog
       .open({
@@ -71,6 +58,45 @@ app.post(
           'err:\n' + require('util').inspect(err, { depth: null, colors: true })
         );
       });
+  }
+);
+
+app.post('/events', bodyParser.json(), (req, res) => {
+  if (req.body.type === 'url_verification') {
+    logger.info('Url Verification');
+    console.log(
+      'req.body:\n' +
+        require('util').inspect(req.body, { depth: null, colors: true })
+    );
+    res.send(req.body.challenge);
+    return;
+  }
+
+  console.log(
+    'req.body:\n' +
+      require('util').inspect(req.body, { depth: null, colors: true })
+  );
+});
+
+app.post(
+  '/webhook/dialog',
+  bodyParser.urlencoded({ extended: true }),
+  (req, res) => {
+    const body = JSON.parse(req.body.payload);
+
+    if (body.type === 'dialog_submission') {
+      // TODO: handle the errors
+      console.log('body.submission:\n' + require('util').inspect(body.submission, { depth: null, colors: true }));
+
+      slackClient.chat.postEphemeral({ channel: body.channel.id, user: body.user.id, text: 'You sent\n' + JSON.stringify(body.submission, null, 2) })
+        .then((res) => {
+          // `res` contains information about the posted message
+          logger.info('Sent dialog confirmation')
+        })
+        .catch(console.error);
+
+      res.status(200).send();
+    }
   }
 );
 
