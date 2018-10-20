@@ -1,5 +1,10 @@
 {
   "server": {
     "port": 3141
+  },
+  "slack": {
+    "app_id": "look in the local.json",
+    "client_id": "look in the local.json",
+    "client_secret": "look in the local.json"
   }
 }
