@@ -27,21 +27,51 @@ app.post(
       .open({
         trigger_id: req.body.trigger_id,
         dialog: {
-          callback_id: 'ryde-46e2b0',
-          title: 'Request a Ride',
-          submit_label: 'Request',
-          notify_on_cancel: true,
-          state: 'Limo',
+          callback_id: 'a-super-important-id',
+          title: 'Subscribe to Launches',
+          submit_label: 'Subscribe',
+          state: '',
           elements: [
             {
-              type: 'text',
-              label: 'Pickup Location',
-              name: 'loc_origin'
+              type: 'select',
+              label: 'Channel to Notify',
+              name: 'notify_destinantion',
+              data_source: 'conversations'
             },
             {
-              type: 'text',
-              label: 'Dropoff Location',
-              name: 'loc_destination'
+              type: 'select',
+              label: 'Launch Organization',
+              name: 'launch_organization',
+              options: [
+                {
+                  label: 'All',
+                  value: 'all'
+                },
+                {
+                  label: 'All Private Companies',
+                  value: 'all_private'
+                },
+                {
+                  label: 'Private Company - SpaceX',
+                  value: 'spacex'
+                },
+                {
+                  label: 'Private Company - Blue Origin',
+                  value: 'blue_origin'
+                },
+                {
+                  label: 'All Governments',
+                  value: 'all_government'
+                },
+                {
+                  label: 'Government - United States',
+                  value: 'usa'
+                },
+                {
+                  label: 'Government - Russia',
+                  value: 'russia'
+                }
+              ]
             }
           ]
         }
