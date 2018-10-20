@@ -1,6 +1,8 @@
 const express = require('express');
 const config = require('config');
 
+const logger = require('./logger')('index');
+
 const app = express();
 
 app.get('/', (req, res) => {
@@ -9,4 +11,4 @@ app.get('/', (req, res) => {
 
 const PORT = config.get('server.port');
 app.listen(PORT);
-console.log(`Server started on port ${PORT}`);
+logger.info(`Server started on port ${PORT}`);

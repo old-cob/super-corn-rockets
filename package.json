@@ -5,8 +5,8 @@
   "private": true,
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "nodemon src/index.js",
+    "start": "node src/index.js | pino-pretty -cl",
+    "dev": "nodemon src/index.js | pino-pretty -cl",
     "format": "prettier --write 'src/**/*.js' 'test/**/*js'",
     "lint": "eslint src/"
   },
@@ -22,12 +22,14 @@
   "homepage": "https://github.com/old-cob/super-corn-rockets#readme",
   "dependencies": {
     "config": "^2.0.1",
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "pino": "^5.8.0"
   },
   "devDependencies": {
     "eslint": "^5.7.0",
     "eslint-config-prettier": "^3.1.0",
     "nodemon": "^1.18.4",
+    "pino-pretty": "^2.2.2",
     "prettier": "^1.14.3"
   }
 }
