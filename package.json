@@ -1,0 +1,20 @@
+{
+  "name": "super-corn-rockets",
+  "version": "1.0.0",
+  "description": "Super Corn Rockets",
+  "private": true,
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/old-cob/super-corn-rockets.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/old-cob/super-corn-rockets/issues"
+  },
+  "homepage": "https://github.com/old-cob/super-corn-rockets#readme"
+}
