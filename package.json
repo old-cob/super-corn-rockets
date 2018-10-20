@@ -6,7 +6,8 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon src/index.js",
+    "format": "prettier --write --single-quote 'src/**/*.js' 'test/**/*js'"
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,7 @@
     "express": "^4.16.4"
   },
   "devDependencies": {
-    "nodemon": "^1.18.4"
+    "nodemon": "^1.18.4",
+    "prettier": "^1.14.3"
   }
 }
