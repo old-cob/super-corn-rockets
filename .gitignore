@@ -62,3 +62,4 @@ typings/
 
 shell.nix
 tmp/
+config/local.*

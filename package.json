@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/old-cob/super-corn-rockets#readme",
   "dependencies": {
+    "config": "^2.0.1",
     "express": "^4.16.4"
   }
 }
