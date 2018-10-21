@@ -83,10 +83,8 @@ function createTable(name, cb) {
       }
     })
     .catch(error => {
-      console.log(
-        'error:\n' +
-          require('util').inspect(error, { depth: null, colors: true })
-      );
+      logger.fatal({ error }, 'database connection failed:', error.message);
+      process.exit(1);
     });
 }
 
