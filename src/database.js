@@ -11,9 +11,16 @@ module.exports.init = async function() {
   });
 
   await connection.raw('SELECT 1').catch(error => {
+    console.log(error);
     logger.fatal('database connection failed', error);
     process.exit(1);
   });
+
+  await connection.schema.createTable('users', function (table) {
+    table.increments();
+    table.string('user_id');
+    table.timestamps();
+  })
 };
 
 module.exports.connection = connection;

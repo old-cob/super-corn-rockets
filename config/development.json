@@ -6,5 +6,14 @@
     "app_id": "look in the local.json",
     "client_id": "look in the local.json",
     "client_secret": "look in the local.json"
+  },
+
+  "database": {
+    "port": "32768",
+    "host": "localhost",
+    "user": "postgres",
+    "password": "",
+    "database": "super_corn_rockets"
   }
+
 }

@@ -25,6 +25,8 @@
     "body-parser": "^1.18.3",
     "config": "^2.0.1",
     "express": "^4.16.4",
+    "knex": "^0.15.2",
+    "pg": "^7.5.0",
     "pino": "^5.8.0"
   },
   "devDependencies": {
