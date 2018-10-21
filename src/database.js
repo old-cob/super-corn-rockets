@@ -21,9 +21,10 @@ module.exports.init = async function() {
     await connection.schema.createTable('users', function(table) {
       table.increments();
       table.string('user_id').notNullable();
+      table.string('team_id').notNullable();
       table.timestamps();
 
-      table.unique('user_id');
+      table.unique(['user_id', 'team_id']);
     });
   }
 };
