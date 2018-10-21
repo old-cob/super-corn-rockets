@@ -6,6 +6,7 @@ const pinoLogger = require('express-pino-logger');
 
 const logger = require('./logger')('index');
 const database = require('./database');
+const slackClient = require('./connectors/slack').client;
 
 async function start() {
   const connection = await database.init();
@@ -19,11 +20,8 @@ async function start() {
   app.use((req, res, next) => {
     if (!req.context) req.context = {};
     req.context.connection = connection;
+    next();
   });
-
-  const slackClient = new WebClient(
-    config.get('slack.bot_user_oauth_access_token')
-  );
 
   app.get('/ping', (req, res) => {
     res.send('pong');
