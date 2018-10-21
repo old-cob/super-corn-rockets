@@ -12,8 +12,7 @@ module.exports.init = async function() {
 
   // Make sure the connection to the database is good
   await connection.raw('SELECT 1').catch(error => {
-    console.log(error);
-    logger.fatal('database connection failed', error);
+    logger.fatal({ error }, 'database connection failed:', error.message);
     process.exit(1);
   });
 
@@ -21,7 +20,7 @@ module.exports.init = async function() {
     table.string('slack_user_id').notNullable();
     table.string('slack_team_id').notNullable();
 
-    table.unique(['user_id', 'team_id']);
+    table.unique(['slack_user_id', 'slack_team_id']);
   });
 
   await createTable('subscriptions', table => {
@@ -67,14 +66,28 @@ module.exports.init = async function() {
   });
 };
 
-async function createTable(name, cb) {
-  if (!(await connection.schema.hasTable(name))) {
-    await connection.schema.createTable(name, table => {
-      table.increments();
-      table.timestamps();
-      cb(table);
+function createTable(name, cb) {
+  return connection.schema
+    .hasTable(name)
+    .then(exists => {
+      if (!exists) {
+        return connection.schema
+          .createTable(name, table => {
+            table.uuid('id');
+            table.timestamps();
+            cb(table);
+          })
+          .then(() => {
+            logger.debug('Create table:', name);
+          });
+      }
+    })
+    .catch(error => {
+      console.log(
+        'error:\n' +
+          require('util').inspect(error, { depth: null, colors: true })
+      );
     });
-  }
 }
 
 module.exports.connection = connection;

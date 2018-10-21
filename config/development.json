@@ -2,6 +2,9 @@
   "server": {
     "port": 3141
   },
+  "log": {
+    "level": "debug"
+  },
   "slack": {
     "app_id": "look in the local.json",
     "client_id": "look in the local.json",
