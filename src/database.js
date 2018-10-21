@@ -14,53 +14,85 @@ module.exports.init = async function() {
     process.exit(1);
   });
 
-  await createTable(connection, 'users', table => {
-    table.string('slack_user_id').notNullable();
-    table.string('slack_team_id').notNullable();
+  await createTable(connection, 'User', table => {
+    table.string('SlackUserId').notNullable();
+    table.string('SlackTeamId').notNullable();
 
-    table.unique(['slack_user_id', 'slack_team_id']);
+    table.unique(['SlackUserId', 'SlackTeamId']);
   });
 
-  await createTable(connection, 'subscriptions', table => {
-    table.integer('user_id').notNullable();
-    table.string('slack_conversation_id').notNullable();
-    table.string('slack_conversation_type').notNullable();
-  });
-
-  await createTable(connection, 'catagories', table => {
-    table.string('value').notNullable();
-  });
-
-  await createTable(connection, 'subscriptions_catagories', table => {
-    table.integer('subscription_id').notNullable();
-    table.integer('catagory_id').notNullable();
-  });
-
-  await createTable(connection, 'notifications', table => {
-    table.integer('subscription_id').notNullable();
-    table.integer('launch_id').notNullable();
+  await createTable(connection, 'Subscription', table => {
     table
-      .boolean('sent')
+      .uuid('UserId')
+      .notNullable()
+      .references('id')
+      .inTable('User');
+    table.string('SlackConversationId').notNullable();
+    table.string('SlackConversationType').notNullable();
+  });
+
+  await createTable(connection, 'Catagory', table => {
+    table.string('Value').notNullable();
+  });
+
+  await createTable(connection, 'SubscriptionCatagory', table => {
+    table
+      .uuid('SubscriptionId')
+      .notNullable()
+      .references('id')
+      .inTable('Subscription');
+    table
+      .uuid('CatagoryId')
+      .notNullable()
+      .references('id')
+      .inTable('Catagory');
+  });
+
+  await createTable(connection, 'Launch', table => {
+    // TODO: add launch data
+  });
+
+  await createTable(connection, 'Notification', table => {
+    table
+      .uuid('SubscriptionId')
+      .notNullable()
+      .references('id')
+      .inTable('Subscription');
+    table
+      .uuid('LaunchId')
+      .notNullable()
+      .references('id')
+      .inTable('Launch');
+    table
+      .boolean('Sent')
       .notNullable()
       .defaultTo(false);
     // 5 minutes
     // 60 minutes
     // 24 hours = 1440 minutes
-    table.integer('time_until_launch').notNullable();
+    table.integer('TimeUntilLaunch').notNullable();
   });
 
-  await createTable(connection, 'launches', table => {
-    // TODO: add launch data
+  await createTable(connection, 'LaunchCatagory', table => {
+    table
+      .uuid('LaunchId')
+      .notNullable()
+      .references('id')
+      .inTable('Launch');
+    table
+      .uuid('CatagoryId')
+      .notNullable()
+      .references('id')
+      .inTable('Catagory');
   });
 
-  await createTable(connection, 'launches_catagories', table => {
-    table.integer('launch_id').notNullable();
-    table.integer('catagory_id').notNullable();
-  });
-
-  await createTable(connection, 'lookup_launch_times', table => {
-    table.integer('launch_id').notNullable();
-    table.datetime('launch_time_offset').notNullable();
+  await createTable(connection, 'LookupLaunchTimes', table => {
+    table
+      .uuid('LaunchId')
+      .notNullable()
+      .references('id')
+      .inTable('Launch');
+    table.datetime('LaunchTimeOffset').notNullable();
   });
 
   return connection;
