@@ -18,7 +18,7 @@ module.exports.init = async function() {
 
   const hasUsersTable = await connection.schema.hasTable('users');
   if (!hasUsersTable) {
-    await connection.schema.create('users', function(table) {
+    await connection.schema.createTable('users', function(table) {
       table.increments();
       table.string('user_id').notNullable();
       table.timestamps();
