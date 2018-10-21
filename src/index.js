@@ -116,12 +116,23 @@ app.post(
 
     if (body.type === 'dialog_submission') {
       // TODO: handle the errors
-      console.log('body.submission:\n' + require('util').inspect(body.submission, { depth: null, colors: true }));
+      console.log(
+        'body.submission:\n' +
+          require('util').inspect(body.submission, {
+            depth: null,
+            colors: true
+          })
+      );
 
-      slackClient.chat.postEphemeral({ channel: body.channel.id, user: body.user.id, text: 'You sent\n' + JSON.stringify(body.submission, null, 2) })
-        .then((res) => {
+      slackClient.chat
+        .postEphemeral({
+          channel: body.channel.id,
+          user: body.user.id,
+          text: 'You sent\n' + JSON.stringify(body.submission, null, 2)
+        })
+        .then(res => {
           // `res` contains information about the posted message
-          logger.info('Sent dialog confirmation')
+          logger.info('Sent dialog confirmation');
         })
         .catch(console.error);
 
