@@ -16,11 +16,11 @@ module.exports.init = async function() {
     process.exit(1);
   });
 
-  await connection.schema.createTable('users', function (table) {
+  await connection.schema.createTable('users', function(table) {
     table.increments();
     table.string('user_id');
     table.timestamps();
-  })
+  });
 };
 
 module.exports.connection = connection;
