@@ -7,7 +7,8 @@
   "scripts": {
     "start": "node src/index.js | pino-pretty -cl",
     "dev": "nodemon src/index.js | pino-pretty -cl",
-    "format": "prettier --write 'src/**/*.js' 'test/**/*js'",
+    "format": "prettier --write 'src/**/*.js' 'test/**/*js' 'config/*.json'",
+    "check-format": "prettier --list-different 'src/**/*.js' 'test/**/*js' 'config/*.json'",
     "lint": "eslint src/"
   },
   "repository": {
@@ -32,8 +33,14 @@
   "devDependencies": {
     "eslint": "^5.7.0",
     "eslint-config-prettier": "^3.1.0",
+    "husky": "^1.1.2",
     "nodemon": "^1.18.4",
     "pino-pretty": "^2.2.2",
     "prettier": "1.14.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run check-format && npm run lint"
+    }
   }
 }
