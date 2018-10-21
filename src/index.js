@@ -8,11 +8,18 @@ const logger = require('./logger')('index');
 const database = require('./database');
 
 async function start() {
-  await database.init();
+  const connection = await database.init();
 
   const app = express();
 
+  // Log requests
   app.use(pinoLogger({ logger: logger.child({ name: 'request' }) }));
+
+  // Attach database connection to requests
+  app.use((req, res, next) => {
+    if (!req.context) req.context = {};
+    req.context.connection = connection;
+  });
 
   const slackClient = new WebClient(
     config.get('slack.bot_user_oauth_access_token')
