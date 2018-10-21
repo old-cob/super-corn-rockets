@@ -2,16 +2,25 @@ const express = require('express');
 const config = require('config');
 const bodyParser = require('body-parser');
 const { WebClient } = require('@slack/client');
+const pinoLogger = require('express-pino-logger');
 
 const logger = require('./logger')('index');
 const database = require('./database');
 
 async function start() {
   await database.init();
+
   const app = express();
+
+  app.use(pinoLogger({ logger: logger.child({ name: 'request' }) }));
+
   const slackClient = new WebClient(
     config.get('slack.bot_user_oauth_access_token')
   );
+
+  app.get('/ping', (req, res) => {
+    res.send('pong');
+  });
 
   app.post(
     '/webhook/slash/:name',
