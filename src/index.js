@@ -159,8 +159,10 @@ async function start() {
     }
   );
 
-  const PORT = config.get('server.port');
-  app.listen(PORT);
-  logger.info(`Server started on port ${PORT}`);
+  return app;
 }
-start();
+
+cosnt app = start();
+const PORT = config.get('server.port');
+app.listen(PORT);
+logger.info(`Server started on port ${PORT}`);
